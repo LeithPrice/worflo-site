@@ -1,0 +1,98 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+}
+const {
+  title,
+  description = 'Debug, version-control, and monitor your HubSpot workflows. Catch errors before your contacts do.',
+  canonical,
+} = Astro.props;
+const url = canonical ?? Astro.url.href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+
+    <!-- OG -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Worflo" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <header class="nav">
+      <div class="nav-inner">
+        <a href="/" class="nav-logo">
+          <span class="nav-logo-icon">⚡</span> Worflo
+        </a>
+        <ul class="nav-links">
+          <li><a href="/#features">Features</a></li>
+          <li><a href="/#pricing">Pricing</a></li>
+          <li><a href="/changelog">Changelog</a></li>
+          <li><a href="mailto:support@worflo.io">Support</a></li>
+        </ul>
+        <div class="nav-cta">
+          <a href="https://app.worflo.io/connect" class="btn btn-outline" style="padding:8px 18px;font-size:14px">Log in</a>
+          <a href="https://app.worflo.io/connect" class="btn btn-primary" style="padding:8px 18px;font-size:14px">Start free →</a>
+        </div>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-inner">
+          <div>
+            <div class="footer-logo">⚡ Worflo</div>
+            <p class="footer-tagline">Debug, version-control, and monitor your HubSpot workflows. Built for operations teams who can't afford surprises.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="/#features">Features</a></li>
+              <li><a href="/#pricing">Pricing</a></li>
+              <li><a href="/changelog">Changelog</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="mailto:support@worflo.io">support@worflo.io</a></li>
+              <li><a href="https://app.worflo.io/connect">Log in</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a href="/terms">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© {new Date().getFullYear()} Worflo. All rights reserved.</span>
+          <a href="https://ecosystem.hubspot.com" target="_blank" rel="noopener">Built for HubSpot</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

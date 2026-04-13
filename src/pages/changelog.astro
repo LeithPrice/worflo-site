@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const entries = [
+  {
+    version: '1.3',
+    type: 'major',
+    date: 'April 2026',
+    title: 'Error Pattern Detection & Dependency Map',
+    tags: ['new', 'new'],
+    items: [
+      { tag: 'new',      text: 'Error Patterns tab — aggregated failure stats, top error messages, and failing-step breakdown across 30 days' },
+      { tag: 'new',      text: 'Workflow Dependency Map — SVG graph visualising shared lists, webhooks, and action types across all your workflows' },
+      { tag: 'improved', text: 'Rollback now attempts the HubSpot API first and falls back to guided step-by-step instructions if write access is unavailable' },
+    ]
+  },
+  {
+    version: '1.2',
+    type: 'major',
+    date: 'April 2026',
+    title: 'AI Diff Summaries, CSV Export & Webhook Alerts',
+    tags: ['new'],
+    items: [
+      { tag: 'new',      text: 'AI-powered diff summaries — one-sentence plain-English explanation of what changed between workflow versions, powered by Claude' },
+      { tag: 'new',      text: 'CSV export for execution traces — download filtered results directly from the traces tab' },
+      { tag: 'new',      text: 'Slack & webhook alerts — fire a JSON payload to any webhook URL (Slack, PagerDuty, or custom) on workflow errors' },
+      { tag: 'improved', text: 'Execution stats chart — 30-day sparkline showing total runs vs errors in the workflow overview tab' },
+    ]
+  },
+  {
+    version: '1.1',
+    type: 'major',
+    date: 'March 2026',
+    title: 'Team Members, Multi-Portal & Trace Search',
+    tags: ['new'],
+    items: [
+      { tag: 'new',      text: 'Team members — invite colleagues with role-based access (admin, member, viewer)' },
+      { tag: 'new',      text: 'Multi-portal switcher — connect and switch between multiple HubSpot portals from one account' },
+      { tag: 'new',      text: 'Cross-portal trace search — find any execution by contact ID, deal ID, or status across all connected portals' },
+      { tag: 'new',      text: 'Alert settings — configure email thresholds, Slack webhooks, and weekly digest from the Alerts page' },
+    ]
+  },
+  {
+    version: '1.0',
+    type: 'major',
+    date: 'February 2026',
+    title: 'Initial Launch',
+    tags: ['new'],
+    items: [
+      { tag: 'new', text: 'Workflow version history — every change automatically captured with a full diff viewer' },
+      { tag: 'new', text: 'Execution trace inspector — step-by-step breakdown of every workflow run' },
+      { tag: 'new', text: 'Health monitoring — error rate, health status, and recent errors on every workflow' },
+      { tag: 'new', text: 'HubSpot OAuth install — connect in one click from the HubSpot Marketplace' },
+      { tag: 'new', text: 'Stripe billing — Free, Pro, Agency, and Enterprise tiers' },
+    ]
+  },
+];
+---
+<Layout
+  title="Changelog — Worflo"
+  description="See what's new in Worflo — new features, improvements, and fixes."
+>
+  <section class="changelog-hero">
+    <div class="container">
+      <p class="section-eyebrow">Changelog</p>
+      <h1 class="section-title">What's new in Worflo</h1>
+      <p class="section-sub">New features, improvements, and fixes — in the order we shipped them.</p>
+    </div>
+  </section>
+
+  <section style="padding-bottom:80px">
+    <div class="container">
+      {entries.map(entry => (
+        <div class="changelog-entry">
+          <div class="changelog-date">{entry.date}</div>
+          <div>
+            <span class={`changelog-version ${entry.type}`}>v{entry.version}</span>
+            <h2 class="changelog-title">{entry.title}</h2>
+            <div class="changelog-body">
+              <ul>
+                {entry.items.map(item => (
+                  <li>
+                    <span class={`changelog-tag ${item.tag}`}>
+                      {item.tag === 'new' ? 'New' : item.tag === 'improved' ? 'Improved' : 'Fixed'}
+                    </span>
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
