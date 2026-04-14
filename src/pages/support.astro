@@ -1,0 +1,113 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: 'Why aren\'t my workflows showing up?',
+    a: 'Worflo syncs every 5 minutes. If you just connected, wait up to 5 minutes and refresh. Free plan accounts track a maximum of 3 workflows — if you have more, only the first 3 synced will appear. Upgrade to Pro for unlimited.'
+  },
+  {
+    q: 'Why am I not seeing any execution traces?',
+    a: 'Traces arrive via webhook as your workflows run. If your workflows haven\'t executed since you connected, there will be no traces yet. Run a workflow manually in HubSpot and check back within 30 seconds.'
+  },
+  {
+    q: 'The AI explanation says "generating…" — is it stuck?',
+    a: 'AI explanations are generated in the background and typically appear within 5–10 seconds of a trace being received. If it\'s been more than a minute, try refreshing the page. AI explanations require a Pro plan and an active Anthropic API connection.'
+  },
+  {
+    q: 'Can I roll back a workflow directly from Worflo?',
+    a: 'Yes, on Pro plans. Open the workflow → Versions tab → Rollback. Worflo attempts to push the change via the HubSpot API. If the API doesn\'t support direct writes for your workflow type, you\'ll get a guided step-by-step checklist to apply manually.'
+  },
+  {
+    q: 'I\'m not receiving alert emails.',
+    a: 'Check your Alert Settings (Sidebar → Alert Settings) and verify email alerts are toggled on and the correct address is entered. Also check your spam folder — add alerts@worflo.io to your contacts. If you\'re on a Free plan, AI explanations and Slack alerts require Pro.'
+  },
+  {
+    q: 'How do I add team members?',
+    a: 'Go to Sidebar → Team Members → enter an email address and role. They\'ll receive an invitation link. Team members share access to all workflows and traces in your portal. Requires Pro plan.'
+  },
+  {
+    q: 'Is my HubSpot data safe?',
+    a: 'Yes. OAuth tokens are encrypted at rest using AES-256. We never store contact PII — only HubSpot object IDs referenced in execution logs. Data is stored in AWS (Sydney region). See our Privacy Policy for full details.'
+  },
+  {
+    q: 'How do I disconnect Worflo from HubSpot?',
+    a: 'Go to Settings → Disconnect HubSpot. This removes our OAuth access. Your data is retained and you can reconnect at any time. To permanently delete your data, email support@worflo.io.'
+  },
+];
+---
+<Layout title="Support — Worflo" description="Get help with Worflo. FAQs, troubleshooting, and contact support.">
+  <div style="max-width:800px;margin:0 auto;padding:64px 24px 80px">
+    <p class="section-eyebrow">Support</p>
+    <h1 class="section-title">How can we help?</h1>
+    <p style="color:var(--gray-5);font-size:15px;margin-bottom:48px">
+      Check the FAQs below or email us directly — we typically reply within a few hours.
+    </p>
+
+    <!-- Contact options -->
+    <div class="contact-grid">
+      <a href="mailto:support@worflo.io" class="contact-card">
+        <div class="contact-icon">✉️</div>
+        <h3>Email support</h3>
+        <p>support@worflo.io</p>
+        <span class="contact-note">Replies within a few hours</span>
+      </a>
+      <a href="/docs" class="contact-card">
+        <div class="contact-icon">📖</div>
+        <h3>Documentation</h3>
+        <p>Step-by-step guides for every feature</p>
+        <span class="contact-note">worflo.io/docs</span>
+      </a>
+    </div>
+
+    <!-- FAQs -->
+    <h2 style="font-size:22px;font-weight:700;color:var(--dark);margin:48px 0 24px">Frequently asked questions</h2>
+
+    <div class="faq-list">
+      {faqs.map(faq => (
+        <details class="faq-item">
+          <summary class="faq-q">{faq.q}</summary>
+          <p class="faq-a">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+
+    <div style="margin-top:48px;padding:32px;background:var(--gray-1);border-radius:12px;text-align:center">
+      <p style="font-size:16px;font-weight:600;margin-bottom:8px">Still stuck?</p>
+      <p style="color:var(--gray-5);font-size:14px;margin-bottom:20px">Include your HubSpot portal ID and a description of the issue.</p>
+      <a href="mailto:support@worflo.io" class="btn btn-primary">Email support@worflo.io →</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 8px; }
+  .contact-card {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 24px; background: #fff; border: 1px solid var(--gray-2);
+    border-radius: 12px; text-decoration: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .contact-card:hover { border-color: var(--blue); box-shadow: 0 4px 12px rgba(0,98,204,.08); }
+  .contact-icon { font-size: 28px; margin-bottom: 8px; }
+  .contact-card h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin: 0; }
+  .contact-card p { font-size: 14px; color: var(--gray-5); margin: 4px 0; }
+  .contact-note { font-size: 12px; color: var(--gray-4); margin-top: 4px; }
+
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+  .faq-item {
+    border-bottom: 1px solid var(--gray-2);
+    padding: 0;
+  }
+  .faq-item:first-child { border-top: 1px solid var(--gray-2); }
+  .faq-q {
+    font-size: 15px; font-weight: 600; color: var(--dark);
+    padding: 18px 0; cursor: pointer; list-style: none;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q::after { content: '+'; font-size: 20px; color: var(--gray-4); font-weight: 300; }
+  details[open] .faq-q::after { content: '−'; }
+  .faq-a { font-size: 14px; color: var(--gray-6); line-height: 1.8; padding: 0 0 18px; margin: 0; }
+
+  @media (max-width: 600px) { .contact-grid { grid-template-columns: 1fr; } }
+</style>

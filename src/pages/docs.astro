@@ -1,0 +1,241 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const sections = [
+  {
+    id: 'getting-started',
+    title: 'Getting Started',
+    articles: [
+      {
+        title: 'Connect your HubSpot portal',
+        body: `Go to app.worflo.io and click "Connect HubSpot". You'll be redirected to HubSpot's OAuth screen — approve the requested scopes and you'll be redirected back. Your workflows sync automatically within 60 seconds.`,
+        steps: [
+          'Go to app.worflo.io',
+          'Click "Connect HubSpot — it\'s free"',
+          'Review and approve the requested HubSpot permissions',
+          'You\'ll land on your dashboard — workflows sync in the background'
+        ]
+      },
+      {
+        title: 'Your first sync',
+        body: `Worflo polls HubSpot every 5 minutes to check for new workflows and definition changes. New workflows appear on the Workflows page. Free plan accounts track up to 3 workflows; upgrade for unlimited.`,
+      },
+      {
+        title: 'How execution traces arrive',
+        body: `Worflo receives execution data via HubSpot webhooks — events fire in real time as your workflows run. You don't need to do anything to enable this. Traces appear on each workflow's Traces tab within seconds of execution.`,
+      },
+    ]
+  },
+  {
+    id: 'traces',
+    title: 'Execution Traces',
+    articles: [
+      {
+        title: 'Reading a trace',
+        body: 'Open any workflow → Traces tab → click a trace row. You\'ll see a step-by-step breakdown: which action ran, what inputs were passed, how long it took, and the exact error message if it failed.',
+      },
+      {
+        title: 'AI error explanations',
+        body: 'For errored traces, Worflo generates an AI explanation using Claude. It appears in the purple panel on the trace detail page within a few seconds. Explains what went wrong, the most likely cause, and the specific fix to try. Requires Pro plan.',
+      },
+      {
+        title: 'Filtering traces',
+        body: 'Use the filter pills on the Traces tab to show All, Errors only, or Completed only. The search bar on the Search page lets you find traces by contact ID, deal ID, or error message across all workflows.',
+      },
+    ]
+  },
+  {
+    id: 'versions',
+    title: 'Version History',
+    articles: [
+      {
+        title: 'How versioning works',
+        body: 'Every time Worflo detects a change in your workflow definition during a sync, it saves a new version automatically. No manual action needed. Versions are stored indefinitely on Pro and above (7 days on Free).',
+      },
+      {
+        title: 'Comparing versions',
+        body: 'Open a workflow → Versions tab → click "Diff" next to any version. Select two versions to compare. The diff shows added, removed, and changed fields with exact before/after values. An AI summary explains the change in plain English (Pro).',
+      },
+      {
+        title: 'Rolling back',
+        body: 'On the Versions tab, click "Rollback" on any previous version. Worflo attempts to push the change directly to HubSpot via API. If direct rollback isn\'t available (HubSpot API limitation), you\'ll get a guided step-by-step checklist to apply manually. Requires Pro plan.',
+      },
+    ]
+  },
+  {
+    id: 'alerts',
+    title: 'Alerts',
+    articles: [
+      {
+        title: 'Setting up email alerts',
+        body: 'Go to Sidebar → Alert Settings. Toggle "Email alerts" on and enter a notification address. Leave blank to use your HubSpot account email. Alerts fire within seconds of an execution error.',
+      },
+      {
+        title: 'Slack alerts',
+        body: 'In Alert Settings, paste a Slack Incoming Webhook URL into the Slack field. Create one at api.slack.com/apps → your app → Incoming Webhooks. Worflo posts a message with the workflow name, error summary, and a link to the trace.',
+      },
+      {
+        title: 'Error rate threshold',
+        body: 'The threshold slider controls when alerts fire based on a workflow\'s 7-day error rate. Set to 10% to only alert when more than 1 in 10 executions are failing — avoids noise from occasional one-off errors.',
+      },
+      {
+        title: 'Weekly digest',
+        body: 'Toggle "Weekly digest" in Alert Settings to receive a Monday morning summary of the previous week\'s error counts across all workflows. Sent to your notification email.',
+      },
+    ]
+  },
+  {
+    id: 'simulation',
+    title: 'Workflow Simulation',
+    articles: [
+      {
+        title: 'Testing enrollment criteria',
+        body: 'Open a workflow → Simulate tab. Enter a HubSpot contact or deal ID. Worflo fetches the object\'s properties from HubSpot and evaluates each enrollment filter — showing pass/fail for every condition. See exactly why a contact would or wouldn\'t be enrolled. Requires Agency plan.',
+      },
+    ]
+  },
+  {
+    id: 'billing',
+    title: 'Plans & Billing',
+    articles: [
+      {
+        title: 'Plan overview',
+        body: 'Free: 3 workflows, 7-day history. Pro ($49/mo): unlimited workflows, AI explanations, rollback, Slack alerts, CSV export, team members, 90-day history. Agency ($149/mo): everything in Pro plus multi-portal, simulation, dependency map. Enterprise ($299/mo): everything in Agency plus SSO and custom data retention.',
+      },
+      {
+        title: 'Upgrading',
+        body: 'Go to Sidebar → Plans & Billing → click Upgrade. You\'ll be redirected to Stripe checkout. Upgrades take effect immediately after payment.',
+      },
+      {
+        title: 'Cancelling',
+        body: 'Go to Plans & Billing → Manage subscription. This opens the Stripe billing portal where you can cancel. Your plan downgrades to Free at the end of the billing period — data is retained.',
+      },
+    ]
+  },
+];
+---
+<Layout title="Documentation — Worflo" description="Worflo documentation — how to use execution tracing, version history, alerts, and workflow simulation.">
+  <div class="docs-layout">
+    <aside class="docs-sidebar">
+      <p class="docs-sidebar-label">Documentation</p>
+      {sections.map(s => (
+        <div class="docs-nav-section">
+          <a href={`#${s.id}`} class="docs-nav-heading">{s.title}</a>
+          {s.articles.map(a => (
+            <a href={`#${s.id}-${a.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="docs-nav-link">{a.title}</a>
+          ))}
+        </div>
+      ))}
+    </aside>
+
+    <main class="docs-main">
+      <div class="docs-header">
+        <p class="section-eyebrow">Docs</p>
+        <h1 class="section-title" style="margin-bottom:8px">Documentation</h1>
+        <p style="color:var(--gray-5);font-size:15px;margin-bottom:48px">Everything you need to get the most out of Worflo.</p>
+      </div>
+
+      {sections.map(s => (
+        <section id={s.id} class="docs-section">
+          <h2 class="docs-section-title">{s.title}</h2>
+          {s.articles.map(a => (
+            <div id={`${s.id}-${a.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="docs-article">
+              <h3>{a.title}</h3>
+              <p>{a.body}</p>
+              {a.steps && (
+                <ol class="docs-steps">
+                  {a.steps.map((step: string) => <li>{step}</li>)}
+                </ol>
+              )}
+            </div>
+          ))}
+        </section>
+      ))}
+
+      <div class="docs-footer-cta">
+        <p>Can't find what you need?</p>
+        <a href="mailto:support@worflo.io" class="btn btn-primary">Email support →</a>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .docs-layout {
+    display: flex;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    gap: 48px;
+  }
+  .docs-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+  }
+  .docs-sidebar-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--gray-4);
+    margin-bottom: 16px;
+  }
+  .docs-nav-section { margin-bottom: 20px; }
+  .docs-nav-heading {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 6px;
+    text-decoration: none;
+  }
+  .docs-nav-link {
+    display: block;
+    font-size: 13px;
+    color: var(--gray-5);
+    padding: 3px 0 3px 12px;
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .docs-nav-link:hover { color: var(--blue); border-left-color: var(--blue); }
+  .docs-main { flex: 1; min-width: 0; }
+  .docs-header { border-bottom: 1px solid var(--gray-2); padding-bottom: 32px; margin-bottom: 40px; }
+  .docs-section { margin-bottom: 48px; }
+  .docs-section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gray-2);
+  }
+  .docs-article {
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--gray-1);
+  }
+  .docs-article:last-child { border-bottom: none; }
+  .docs-article h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+  .docs-article p { font-size: 14px; color: var(--gray-6); line-height: 1.8; margin: 0; }
+  .docs-steps {
+    margin: 12px 0 0;
+    padding-left: 20px;
+  }
+  .docs-steps li { font-size: 14px; color: var(--gray-6); line-height: 1.8; margin-bottom: 4px; }
+  .docs-footer-cta {
+    margin-top: 48px;
+    padding: 32px;
+    background: var(--gray-1);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .docs-footer-cta p { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+  @media (max-width: 768px) {
+    .docs-layout { flex-direction: column; }
+    .docs-sidebar { width: 100%; position: static; }
+  }
+</style>
