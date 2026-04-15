@@ -95,6 +95,72 @@ const sections = [
     ]
   },
   {
+    id: 'error-patterns',
+    title: 'Error Pattern Detection',
+    articles: [
+      {
+        title: 'What error patterns are',
+        body: 'Error pattern detection groups repeated failures by step type and error message. Instead of 47 individual "Webhook timeout" errors, you see one grouped pattern with a count and 7-day trend. Requires Pro plan.',
+      },
+      {
+        title: 'Viewing patterns',
+        body: 'Open any workflow → Error Patterns tab. Each row shows the error message, the step where it occurred, how many times it happened, and the 7-day trend chart. Click a pattern to filter traces to matching executions.',
+      },
+    ]
+  },
+  {
+    id: 'dependency-map',
+    title: 'Dependency Map',
+    articles: [
+      {
+        title: 'What the map shows',
+        body: 'The dependency map visualises which workflows share lists, webhook URLs, or integration action types. A line between two workflows means they share a resource — know the blast radius before making changes. Requires Agency plan.',
+      },
+      {
+        title: 'Opening the map',
+        body: 'Click "Dependency Map" in the sidebar. Each node is a workflow. Hover over a connecting line to see what is shared. Workflows with no shared dependencies appear as isolated nodes.',
+      },
+    ]
+  },
+  {
+    id: 'search',
+    title: 'Search',
+    articles: [
+      {
+        title: 'Searching across all workflows',
+        body: 'The Search page lets you find traces across every workflow at once. Enter a HubSpot contact ID, deal ID, or an error message keyword. Results show matching traces from all workflows, ordered by most recent.',
+      },
+    ]
+  },
+  {
+    id: 'crm-cards',
+    title: 'CRM Cards',
+    articles: [
+      {
+        title: 'What CRM Cards show',
+        body: 'A Worflo card appears on every contact and deal record in HubSpot showing recent workflow execution history — workflow name, status, duration, and error message. No additional setup required after installing Worflo.',
+      },
+      {
+        title: 'Adding the card to a record view',
+        body: 'If the card isn\'t visible, open a contact or deal → click "Customize" (top right) → "Add cards" → search "Workflow Activity" → add and save. Admins can set a default view for all users under Settings → Objects → Record customisation.',
+      },
+    ]
+  },
+  {
+    id: 'team',
+    title: 'Team Members',
+    articles: [
+      {
+        title: 'Inviting team members',
+        body: 'Go to Sidebar → Team → Invite member. Enter their email and select a role: Admin (full access), Member (read + lookup), or Viewer (read-only). They\'ll receive an invitation email. Invites expire after 7 days. Requires Pro plan.',
+      },
+      {
+        title: 'Roles',
+        body: 'Admin — full access including billing and team management. Member — can view all data and use contact lookup but cannot manage billing or team. Viewer — read-only access to workflows and traces only.',
+      },
+    ]
+  },
+  {
     id: 'billing',
     title: 'Plans & Billing',
     articles: [
@@ -154,7 +220,7 @@ const sections = [
 
       <div class="docs-footer-cta">
         <p>Can't find what you need?</p>
-        <a href="mailto:support@worflo.io" class="btn btn-primary">Email support →</a>
+        <a href="mailto:hello@worflo.io" class="btn btn-primary">Email support →</a>
       </div>
     </main>
   </div>
