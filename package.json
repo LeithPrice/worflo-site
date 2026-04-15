@@ -4,11 +4,14 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/generate-images.mjs && astro build",
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "^4.15.0",
-    "@astrojs/sitemap": "^3.1.6"
+    "@astrojs/sitemap": "^3.1.6",
+    "astro": "^4.15.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }
