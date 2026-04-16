@@ -1,43 +1,171 @@
 ---
 import Layout from '../layouts/Layout.astro';
-const updated = 'April 2026';
+const updated = '16 April 2026';
 ---
-<Layout title="Privacy Policy — Worflo" description="Worflo privacy policy — how we collect, use, and protect your data.">
+<Layout title="Privacy Policy — Worflo" description="How Worflo collects, uses, and protects your data.">
   <div style="max-width:720px;margin:0 auto;padding:64px 24px 80px">
     <p class="section-eyebrow">Legal</p>
     <h1 class="section-title">Privacy Policy</h1>
     <p style="color:var(--gray-5);font-size:13px;margin-bottom:40px">Last updated: {updated}</p>
 
     <div style="font-size:15px;color:var(--gray-7);line-height:1.8;display:flex;flex-direction:column;gap:32px">
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">1. What we collect</h2>
-        <p>When you connect HubSpot, we store your HubSpot portal ID, portal name, and OAuth access/refresh tokens (encrypted at rest). We collect workflow definitions, version metadata, and execution trace metadata (object IDs, statuses, step timing). We do not store contact PII — only the HubSpot contact or deal IDs referenced in execution logs.</p>
-        <p style="margin-top:10px">We collect your email address when you create an account or invite team members.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">1. Who we are</h2>
+        <p>Worflo (ABN 30 198 625 249) is an Australian business registered with ASIC. We operate the website <strong>worflo.io</strong> and the application at <strong>app.worflo.io</strong>.</p>
+        <p>In this policy, "Worflo", "we", "us", and "our" refers to this business. "You" refers to the person or organisation using our services.</p>
+        <p>Questions about this policy: <a href="mailto:hello@worflo.io">hello@worflo.io</a></p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">2. How we use it</h2>
-        <p>We use your data solely to provide the Worflo service: syncing workflows, storing version history, logging execution traces, and sending alerts you have configured. We do not sell your data or use it for advertising.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">2. What data we collect</h2>
+        <h3 style="font-size:16px;font-weight:600;color:var(--dark);margin:16px 0 8px">2.1 Account data</h3>
+        <p>When you connect your HubSpot portal or invite team members, we collect: name, email address, HubSpot portal ID and portal name, and subscription details (plan tier, renewal date — not payment card details).</p>
+        <h3 style="font-size:16px;font-weight:600;color:var(--dark);margin:16px 0 8px">2.2 HubSpot portal data</h3>
+        <p>When you authorise Worflo via HubSpot OAuth, we access and store the following from your HubSpot portal:</p>
+        <ul style="padding-left:20px;margin:8px 0">
+          <li><strong>Workflow definitions</strong> — name, trigger conditions, action steps, and enabled/disabled status</li>
+          <li><strong>Workflow version history</strong> — snapshots of each workflow definition each time a change is detected, used for version comparison and rollback</li>
+          <li><strong>Workflow execution events</strong> — enrollment, step completion, step errors, and unenrollment events for contacts, deals, and companies</li>
+          <li><strong>Contact and deal object IDs</strong> — used to identify records in execution logs. We store IDs only, not full contact or deal records.</li>
+          <li><strong>Portal metadata</strong> — portal ID, portal name, account timezone</li>
+        </ul>
+        <p>This data is accessed read-only. The only write operation Worflo performs is the rollback feature, which reconstructs a previous workflow definition with your explicit instruction.</p>
+        <h3 style="font-size:16px;font-weight:600;color:var(--dark);margin:16px 0 8px">2.3 Usage and technical data</h3>
+        <p>We collect information about how you use the application (pages visited, features used) and standard web server data (IP address, browser type, timestamps). We use Sentry for error monitoring, which may capture technical stack traces when an error occurs.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">3. Data storage and security</h2>
-        <p>Data is stored on AWS infrastructure in Sydney, Australia. OAuth tokens are encrypted at rest using AES-256. All data in transit is encrypted via TLS 1.2+. We perform regular security audits and use automated vulnerability scanning on every deployment.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">3. How we use your data</h2>
+        <ul style="padding-left:20px;margin:8px 0">
+          <li><strong>Providing the service</strong> — workflow version control, execution tracing, error alerting, diff viewing, and all features you use</li>
+          <li><strong>Account administration</strong> — managing subscriptions, team members, and portal connections</li>
+          <li><strong>Billing</strong> — processing subscription payments via Stripe</li>
+          <li><strong>Error alerts</strong> — sending email or webhook notifications when workflows error, if you have enabled these</li>
+          <li><strong>Service communications</strong> — weekly digest emails and account notifications, if enabled</li>
+          <li><strong>Product improvement</strong> — understanding feature usage to prioritise development</li>
+          <li><strong>Legal compliance</strong> — maintaining records we are required to keep</li>
+        </ul>
+        <p>We do not sell, rent, or share your data with third parties for marketing. We do not use your HubSpot portal data to train AI models or for any purpose other than providing the service to you.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">4. Data retention</h2>
-        <p>Execution traces are retained for 7 days (Free), 90 days (Pro/Agency/Enterprise), or a custom period negotiated with Enterprise customers. Workflow version history is retained for as long as your account is active. On account deletion, all data is permanently removed within 30 days.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">4. HubSpot OAuth scopes</h2>
+        <p>Worflo requests the following OAuth scopes when you connect your portal. We only request scopes we actively use:</p>
+        <table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:14px">
+          <thead>
+            <tr style="background:#f9fafb">
+              <th style="padding:10px 14px;text-align:left;font-weight:600;border:1px solid #e5e7eb">Scope</th>
+              <th style="padding:10px 14px;text-align:left;font-weight:600;border:1px solid #e5e7eb">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb"><code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace">automation</code></td>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb">Reading workflow definitions and execution events; writing rollback changes</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb"><code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace">crm.objects.contacts.read</code></td>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb">Reading contact property values for the workflow simulation feature</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb"><code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace">crm.objects.deals.read</code></td>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb">Reading deal property values for the workflow simulation feature</td>
+            </tr>
+            <tr>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb"><code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace">oauth</code></td>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb">Standard OAuth authentication</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>You can revoke access at any time from <strong>HubSpot → Settings → Integrations → Connected Apps</strong>. Revocation stops all data syncing and triggers deletion of your portal data within 30 days.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">5. Third-party services</h2>
-        <p>We use Stripe for billing (subject to Stripe's privacy policy), AWS for hosting, and Anthropic's API for AI diff summaries (only workflow change data — no contact information — is sent). We do not use any advertising trackers or analytics beyond server-side request logs.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">5. Third-party sub-processors</h2>
+        <p>We use the following services to operate Worflo. All process data in the United States:</p>
+        <table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:14px">
+          <thead>
+            <tr style="background:#f9fafb">
+              <th style="padding:10px 14px;text-align:left;font-weight:600;border:1px solid #e5e7eb">Provider</th>
+              <th style="padding:10px 14px;text-align:left;font-weight:600;border:1px solid #e5e7eb">Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:10px 14px;border:1px solid #e5e7eb">Amazon Web Services</td><td style="padding:10px 14px;border:1px solid #e5e7eb">Cloud hosting, database, storage</td></tr>
+            <tr><td style="padding:10px 14px;border:1px solid #e5e7eb">Stripe Inc.</td><td style="padding:10px 14px;border:1px solid #e5e7eb">Subscription billing and payment processing</td></tr>
+            <tr><td style="padding:10px 14px;border:1px solid #e5e7eb">HubSpot Inc.</td><td style="padding:10px 14px;border:1px solid #e5e7eb">Integration platform (data source)</td></tr>
+            <tr><td style="padding:10px 14px;border:1px solid #e5e7eb">Postmark (ActiveCampaign)</td><td style="padding:10px 14px;border:1px solid #e5e7eb">Transactional email delivery</td></tr>
+            <tr><td style="padding:10px 14px;border:1px solid #e5e7eb">Anthropic PBC</td><td style="padding:10px 14px;border:1px solid #e5e7eb">AI-generated workflow diff summaries and error explanations</td></tr>
+            <tr><td style="padding:10px 14px;border:1px solid #e5e7eb">Sentry</td><td style="padding:10px 14px;border:1px solid #e5e7eb">Application error monitoring</td></tr>
+          </tbody>
+        </table>
+        <p>Under APP 8 of the Australian Privacy Act 1988, we remain accountable for how our sub-processors handle personal information. We have data processing agreements with each provider above.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">6. Your rights</h2>
-        <p>You may request a copy of your data, correction of inaccurate data, or deletion of all data by emailing <a href="mailto:support@worflo.io">support@worflo.io</a>. We will respond within 30 days. You may disconnect HubSpot at any time from the Settings page, which revokes our OAuth access immediately.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">6. Payment and billing</h2>
+        <p>Subscription payments are processed by <strong>Stripe Inc.</strong> Worflo does not store, see, or have access to your credit card number, CVV, or full payment credentials. These are handled entirely by Stripe's secure payment infrastructure. We store your Stripe customer ID, plan tier, and billing status.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">7. Contact</h2>
-        <p>Questions about this policy: <a href="mailto:support@worflo.io">support@worflo.io</a></p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">7. Data retention</h2>
+        <ul style="padding-left:20px;margin:8px 0">
+          <li><strong>Free plan</strong> — execution traces retained for 7 days; maximum of 100 traces stored</li>
+          <li><strong>Pro and Agency plans</strong> — execution traces retained for 90 days</li>
+          <li><strong>Enterprise plans</strong> — retention periods agreed in writing</li>
+          <li><strong>Account data</strong> — retained for the life of your subscription plus 30 days after cancellation, then permanently deleted</li>
+          <li><strong>HubSpot portal data</strong> — deleted within 30 days of account cancellation or OAuth revocation</li>
+          <li><strong>Billing records</strong> — retained for 7 years as required by Australian tax law</li>
+        </ul>
       </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">8. Overseas data transfers</h2>
+        <p>Your data is processed and stored in the United States by our sub-processors listed in section 5. By using Worflo, you consent to this transfer.</p>
+        <p>Under APP 8 of the Australian Privacy Act 1988, we remain liable for how overseas recipients handle personal information. We have contractual data processing agreements with each sub-processor to ensure data is handled consistently with Australian Privacy Principles.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">9. Security</h2>
+        <ul style="padding-left:20px;margin:8px 0">
+          <li>All data encrypted in transit using TLS 1.2 or higher</li>
+          <li>Data encrypted at rest using AES-256</li>
+          <li>HubSpot OAuth tokens encrypted at the application level before storage</li>
+          <li>Access to production systems restricted to authorised personnel</li>
+          <li>Automated vulnerability scanning on every deployment</li>
+          <li>We comply with the Australian Notifiable Data Breaches (NDB) scheme — if a qualifying breach occurs, we will notify the OAIC and affected individuals within 30 days</li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">10. Your rights</h2>
+        <p>Under the Australian Privacy Act 1988, you have the right to access, correct, and request deletion of your personal information. Email <a href="mailto:hello@worflo.io">hello@worflo.io</a> — we respond within 30 days.</p>
+        <p>You may also disconnect HubSpot at any time from Settings, which revokes our OAuth access immediately and triggers deletion of your portal data.</p>
+        <p>If you are not satisfied with our response, you may lodge a complaint with the Office of the Australian Information Commissioner (OAIC) at <a href="https://www.oaic.gov.au" target="_blank" rel="noopener">oaic.gov.au</a>.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">11. Cookies</h2>
+        <p>The Worflo marketing website (worflo.io) uses only essential session cookies. We do not use advertising or tracking cookies. The application (app.worflo.io) uses browser localStorage to maintain your login session; no cookies are set by the application itself.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">12. Changes to this policy</h2>
+        <p>We will notify you by email of material changes at least 14 days before they take effect. The "Last updated" date at the top reflects the most recent revision.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">13. Governing law</h2>
+        <p>This policy is governed by the laws of Australia. Disputes are subject to the jurisdiction of Australian courts.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">14. Contact</h2>
+        <p>Privacy enquiries: <a href="mailto:hello@worflo.io">hello@worflo.io</a><br/>
+        Worflo (ABN 30 198 625 249), Australia</p>
+      </div>
+
     </div>
   </div>
 </Layout>

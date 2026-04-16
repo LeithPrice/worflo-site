@@ -1,46 +1,107 @@
 ---
 import Layout from '../layouts/Layout.astro';
-const updated = 'April 2026';
+const updated = '16 April 2026';
 ---
-<Layout title="Terms of Service — Worflo" description="Worflo terms of service.">
+<Layout title="Terms of Service — Worflo" description="Worflo terms of service — your rights and obligations when using Worflo.">
   <div style="max-width:720px;margin:0 auto;padding:64px 24px 80px">
     <p class="section-eyebrow">Legal</p>
     <h1 class="section-title">Terms of Service</h1>
     <p style="color:var(--gray-5);font-size:13px;margin-bottom:40px">Last updated: {updated}</p>
 
     <div style="font-size:15px;color:var(--gray-7);line-height:1.8;display:flex;flex-direction:column;gap:32px">
+
       <div>
         <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">1. Acceptance</h2>
-        <p>By connecting your HubSpot account to Worflo, you agree to these terms. If you are using Worflo on behalf of an organisation, you represent that you have authority to bind that organisation.</p>
+        <p>By connecting your HubSpot account to Worflo or using any part of the service, you agree to these Terms of Service. If you are using Worflo on behalf of an organisation, you represent that you have authority to bind that organisation to these terms.</p>
+        <p>Worflo is operated by Worflo (ABN 30 198 625 249), an Australian business registered with ASIC.</p>
       </div>
+
       <div>
         <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">2. Service description</h2>
-        <p>Worflo provides workflow version control, execution tracing, error monitoring, and related tools for HubSpot. The service is provided as-is. We make no warranties about uptime or fitness for a specific purpose beyond what is stated in your plan's SLA (Enterprise only).</p>
+        <p>Worflo provides workflow version control, execution tracing, error monitoring, alerting, and related tools for HubSpot portals. The service is provided via a web application hosted at app.worflo.io and integrated into HubSpot via the HubSpot App Marketplace.</p>
+        <p>Worflo depends on the HubSpot API. We are not responsible for changes, limitations, or outages in the HubSpot platform that affect the functionality of our service.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">3. Your responsibilities</h2>
-        <p>You are responsible for maintaining the security of your Worflo account credentials. You must not use Worflo to store, transmit, or process sensitive personal data beyond what is required to operate your HubSpot workflows. You must comply with HubSpot's own terms of service.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">3. Accounts and access</h2>
+        <p>Portal owners authenticate via HubSpot OAuth. Invited team members authenticate using email and password credentials set during the invite acceptance flow. You are responsible for maintaining the security of your credentials and for all activity that occurs under your account.</p>
+        <p>You must not share your login credentials or portal token with unauthorised parties. Notify us immediately at <a href="mailto:hello@worflo.io">hello@worflo.io</a> if you believe your account has been compromised.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">4. Billing</h2>
-        <p>Paid plans are billed monthly via Stripe. You may cancel at any time; access continues until the end of the current billing period. We reserve the right to change pricing with 30 days' notice. Refunds are handled on a case-by-case basis — contact support within 7 days of a charge if you believe it was made in error.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">4. Acceptable use</h2>
+        <p>You must not use Worflo to:</p>
+        <ul style="padding-left:20px;margin:8px 0">
+          <li>Violate any applicable law or regulation</li>
+          <li>Infringe the intellectual property rights of others</li>
+          <li>Store or process data in violation of HubSpot's own terms of service</li>
+          <li>Attempt to gain unauthorised access to Worflo's systems or other users' data</li>
+          <li>Interfere with or disrupt the service</li>
+          <li>Reverse engineer, decompile, or attempt to extract the source code of Worflo</li>
+        </ul>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">5. Limitations of liability</h2>
-        <p>Worflo is not liable for any indirect, incidental, or consequential damages arising from your use of the service, including but not limited to workflow errors, missed automations, or data loss. Our total liability is limited to the amount you paid in the 3 months preceding the claim.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">5. Subscription plans and billing</h2>
+        <p>Worflo offers Free, Pro ($49/month), Agency ($149/month), and Enterprise ($299/month) plans. Plan features and limits are described at <a href="https://worflo.io/#pricing">worflo.io/#pricing</a>.</p>
+        <p>Paid subscriptions are billed monthly in advance via Stripe. You may cancel at any time; access to paid features continues until the end of the current billing period. No partial refunds are issued for unused portions of a billing period.</p>
+        <p>We reserve the right to change pricing with 30 days' email notice. If you do not cancel before the price change takes effect, you accept the new pricing.</p>
+        <p>If you believe a charge was made in error, contact us at <a href="mailto:hello@worflo.io">hello@worflo.io</a> within 7 days of the charge.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">6. Termination</h2>
-        <p>We may suspend or terminate accounts that violate these terms, engage in abuse, or have outstanding payment failures. You may terminate your account at any time from the Settings page or by emailing support.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">6. Free plan limits</h2>
+        <p>The Free plan is limited to 3 workflows, 7-day execution trace history, and a maximum of 100 stored execution traces. Once these limits are reached, new data will not be stored until older data is pruned. Upgrade to a paid plan to remove these limits.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">7. Governing law</h2>
-        <p>These terms are governed by the laws of New South Wales, Australia. Disputes will be resolved in NSW courts.</p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">7. Data and privacy</h2>
+        <p>Our collection and use of your data is governed by our <a href="/privacy">Privacy Policy</a>, which forms part of these terms. By using Worflo, you consent to the data practices described in the Privacy Policy.</p>
+        <p>You retain ownership of your HubSpot workflow data. Worflo stores copies of your workflow definitions and execution events solely to provide the service.</p>
+        <p>On account termination, all your data will be permanently deleted within 30 days. You may also request immediate deletion by emailing <a href="mailto:hello@worflo.io">hello@worflo.io</a>.</p>
       </div>
+
       <div>
-        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">8. Contact</h2>
-        <p><a href="mailto:support@worflo.io">support@worflo.io</a></p>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">8. Intellectual property</h2>
+        <p>Worflo and its underlying technology, design, and content are owned by Worflo (ABN 30 198 625 249). Nothing in these terms grants you any right to use our trademarks, logos, or brand assets without prior written consent.</p>
       </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">9. Warranties and disclaimers</h2>
+        <p>The service is provided "as is" without warranties of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, or non-infringement, except to the extent that such warranties cannot be excluded under the Australian Consumer Law.</p>
+        <p>We do not warrant that the service will be uninterrupted, error-free, or free from data loss. We are not responsible for the accuracy of AI-generated summaries or explanations produced by the service.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">10. Limitation of liability</h2>
+        <p>To the maximum extent permitted by law, Worflo is not liable for any indirect, incidental, special, or consequential damages arising from your use of the service, including workflow errors, missed automations, data loss, or revenue loss.</p>
+        <p>Our total aggregate liability for any claim arising under these terms is limited to the total amount you paid to Worflo in the three months preceding the event giving rise to the claim.</p>
+        <p>Nothing in these terms limits liability for death or personal injury caused by negligence, fraud, or any liability that cannot be excluded under the Australian Consumer Law.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">11. Termination</h2>
+        <p>You may terminate your account at any time from the Settings page or by emailing <a href="mailto:hello@worflo.io">hello@worflo.io</a>.</p>
+        <p>We may suspend or terminate accounts that violate these terms, engage in abuse of the service, have outstanding payment failures after 14 days' notice, or where required by law. We will give reasonable notice where possible.</p>
+        <p>On termination, your right to use the service ceases immediately. Data deletion obligations described in section 7 apply.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">12. Changes to these terms</h2>
+        <p>We may update these terms from time to time. We will notify you by email at least 14 days before material changes take effect. Continued use of the service after the effective date constitutes acceptance of the updated terms.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">13. Governing law</h2>
+        <p>These terms are governed by the laws of New South Wales, Australia. Any disputes will be subject to the exclusive jurisdiction of the courts of New South Wales.</p>
+      </div>
+
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px">14. Contact</h2>
+        <p><a href="mailto:hello@worflo.io">hello@worflo.io</a><br/>
+        Worflo (ABN 30 198 625 249), Australia</p>
+      </div>
+
     </div>
   </div>
 </Layout>
