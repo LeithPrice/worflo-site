@@ -46,7 +46,8 @@ const url = canonical ?? Astro.url.href;
     <header class="nav">
       <div class="nav-inner">
         <a href="/" class="nav-logo">
-          <span class="nav-logo-icon">⚡</span> Worflo
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle"><rect width="32" height="32" rx="7" fill="#ff7a59"/><path d="M18,2 L8,17 L14,17 L11,30 L24,13 L18,13 Z" fill="white"/></svg>
+          Worflo
         </a>
         <ul class="nav-links">
           <li><a href="/#features">Features</a></li>
@@ -59,7 +60,18 @@ const url = canonical ?? Astro.url.href;
           <a href="https://app.worflo.io/connect" class="btn btn-outline" style="padding:8px 18px;font-size:14px">Log in</a>
           <a href="https://app.worflo.io/connect" class="btn btn-primary" style="padding:8px 18px;font-size:14px">Start free →</a>
         </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+      <nav class="nav-mobile" id="nav-mobile">
+        <a href="/#features">Features</a>
+        <a href="/#pricing">Pricing</a>
+        <a href="/changelog">Changelog</a>
+        <a href="/docs">Docs</a>
+        <a href="/support">Support</a>
+        <a href="https://app.worflo.io/connect" style="font-weight:700;color:var(--blue)">Log in →</a>
+      </nav>
     </header>
 
     <slot />
@@ -68,7 +80,9 @@ const url = canonical ?? Astro.url.href;
       <div class="container">
         <div class="footer-inner">
           <div>
-            <div class="footer-logo">⚡ Worflo</div>
+            <div class="footer-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="20" height="20" style="vertical-align:middle;margin-right:6px"><rect width="32" height="32" rx="7" fill="#ff7a59"/><path d="M18,2 L8,17 L14,17 L11,30 L24,13 L18,13 Z" fill="white"/></svg>Worflo
+          </div>
             <p class="footer-tagline">Debug, version-control, and monitor your HubSpot workflows. Built for operations teams who can't afford surprises.</p>
           </div>
           <div class="footer-col">
@@ -102,5 +116,17 @@ const url = canonical ?? Astro.url.href;
         </div>
       </div>
     </footer>
+    <script>
+      const btn = document.getElementById('nav-hamburger');
+      const drawer = document.getElementById('nav-mobile');
+      if (btn && drawer) {
+        btn.addEventListener('click', () => {
+          drawer.classList.toggle('open');
+        });
+        drawer.querySelectorAll('a').forEach(a => {
+          a.addEventListener('click', () => drawer.classList.remove('open'));
+        });
+      }
+    </script>
   </body>
 </html>

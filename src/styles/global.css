@@ -312,13 +312,82 @@ img { max-width: 100%; display: block; }
   &.fixed   { background: #fff8e1; color: #b97700; }
 }
 
-/* Responsive */
+/* Hamburger button — hidden on desktop */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--dark);
+  border-radius: 2px;
+  transition: transform .2s, opacity .2s;
+}
+
+/* Mobile nav drawer */
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  background: white;
+  border-top: 1px solid var(--gray-3);
+  padding: 12px 0;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile a {
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--gray-7);
+  text-decoration: none;
+  border-bottom: 1px solid var(--gray-1);
+}
+.nav-mobile a:last-child { border-bottom: none; }
+.nav-mobile a:hover { color: var(--dark); background: var(--gray-1); }
+.nav-mobile .nav-mobile-cta {
+  margin: 12px 24px 4px;
+  text-align: center;
+}
+
+/* Responsive — tablet */
 @media (max-width: 768px) {
-  .features-grid, .problem-grid, .pricing-grid, .steps {
-    grid-template-columns: 1fr;
-  }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .problem-grid, .steps { grid-template-columns: repeat(2, 1fr); }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
   .faq-grid { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .nav-hamburger { display: flex; }
   .changelog-entry { grid-template-columns: 1fr; gap: 8px; }
+  .screenshot-ui { grid-template-columns: 1fr; }
+  .ui-sidebar { display: none; }
+  .hero { padding: 64px 0 56px; }
+  .hero-sub { font-size: 17px; }
+  .section-sub { font-size: 15px; }
+  .cta-band h2 { font-size: 28px; }
+  .cta-band p { font-size: 16px; }
+
+  /* Tables in legal pages */
+  table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* Responsive — phone */
+@media (max-width: 480px) {
+  .features-grid, .problem-grid, .pricing-grid, .steps { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .hero h1 { font-size: 32px; }
+  .hero-proof { font-size: 12px; }
+  .screenshot-placeholder { height: 260px; }
+  .pricing-card.featured { margin-top: 0; }
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .hero-ctas .btn { width: 100%; max-width: 320px; justify-content: center; }
 }
