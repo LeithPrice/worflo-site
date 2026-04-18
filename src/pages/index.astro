@@ -9,7 +9,7 @@ import Layout from '../layouts/Layout.astro';
       <span class="hero-eyebrow">Built for HubSpot Operations Teams</span>
       <h1>Stop guessing why your<br/><span>HubSpot workflows break</span></h1>
       <p class="hero-sub">
-        Version control, execution tracing, error detection, and one-click rollback — everything HubSpot's native tools don't give you.
+        Execution tracking, version control, pre-flight checks, branch coverage, duplicate detection, and one-click rollback — everything HubSpot's native tools don't give you.
       </p>
       <div class="hero-ctas">
         <a href="https://app.worflo.io/connect" class="btn btn-primary btn-lg">Connect HubSpot — it's free →</a>
@@ -37,6 +37,7 @@ import Layout from '../layouts/Layout.astro';
               <div class="ui-sidebar-item">▦ Dashboard</div>
               <div class="ui-sidebar-item active">⎇ Workflows</div>
               <div class="ui-sidebar-item">🔍 Search</div>
+              <div class="ui-sidebar-item">✦ Insights</div>
               <div class="ui-sidebar-item">🗺️ Dep Map</div>
               <div class="ui-sidebar-item">🔔 Alerts</div>
               <div class="ui-sidebar-item" style="margin-top:auto">⚙ Settings</div>
@@ -127,9 +128,19 @@ import Layout from '../layouts/Layout.astro';
           <p>Restore any previous version in seconds. Worflo pushes the change directly to HubSpot via API — no manual reconstruction required.</p>
         </div>
         <div class="feature-card">
+          <div class="feature-icon">✈</div>
+          <h3>Pre-Flight Inspector</h3>
+          <p>Scan any workflow for configuration issues before they cause problems — broken webhook URLs, empty conditions, re-enrollment loops, and more. Scored 0–100.</p>
+        </div>
+        <div class="feature-card">
           <div class="feature-icon">📊</div>
           <h3>Error Pattern Detection</h3>
           <p>Automatically groups repeated failures by step type and error message. Find systemic issues before they affect hundreds of contacts.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⎇</div>
+          <h3>Branch Coverage</h3>
+          <p>See which conditional branches in your workflows are actually being taken — and which are dead ends that have never fired in 30 days.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">✨</div>
@@ -138,8 +149,13 @@ import Layout from '../layouts/Layout.astro';
         </div>
         <div class="feature-card">
           <div class="feature-icon">🔔</div>
-          <h3>Instant Alerts</h3>
-          <p>Get notified the moment a workflow errors — via email or Slack. Set thresholds so you only hear about problems that matter.</p>
+          <h3>Instant Alerts + Spike Detection</h3>
+          <p>Alerts the moment a workflow errors. Enrollment spike detection fires when a workflow suddenly enrolls 5× its normal rate — catch re-enrollment loops before they spiral.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3>API Cost Estimator</h3>
+          <p>See how many HubSpot API calls each workflow burns per execution. Project monthly usage against rate limits and get recommendations to reduce overhead.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🗺️</div>
@@ -147,19 +163,14 @@ import Layout from '../layouts/Layout.astro';
           <p>Visualise which workflows share lists, webhooks, or action types. Know the blast radius before you change anything.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3>Team Collaboration</h3>
-          <p>Invite your whole ops team. Role-based access (admin, member, viewer) so everyone has the right level of visibility.</p>
+          <div class="feature-icon">✦</div>
+          <h3>Insights Dashboard</h3>
+          <p>Duplicate workflow detection, property usage auditing, deal stage coverage gaps, and form-to-workflow dependency mapping — all in one place.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">🏢</div>
           <h3>Multi-Portal Support</h3>
           <p>Manage workflows across multiple HubSpot portals from a single Worflo account. Built for agencies and enterprise teams.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📋</div>
-          <h3>CRM Cards</h3>
-          <p>See recent workflow execution history directly on HubSpot contact and deal records — workflow name, status, and errors, without leaving HubSpot.</p>
         </div>
       </div>
     </div>
@@ -226,6 +237,11 @@ import Layout from '../layouts/Layout.astro';
           <ul class="pricing-features">
             <li>Unlimited workflows</li>
             <li>90-day trace history</li>
+            <li>Execution tracking</li>
+            <li>Pre-Flight Inspector</li>
+            <li>Branch coverage</li>
+            <li>API cost estimator</li>
+            <li>Enrollment spike alerts</li>
             <li>AI diff summaries</li>
             <li>One-click rollback</li>
             <li>Error pattern detection</li>
@@ -245,7 +261,11 @@ import Layout from '../layouts/Layout.astro';
           <ul class="pricing-features">
             <li>Everything in Pro</li>
             <li>Multiple HubSpot portals</li>
-            <li>Multi-portal switcher</li>
+            <li>Insights dashboard</li>
+            <li>Duplicate workflow detector</li>
+            <li>Property usage auditor</li>
+            <li>Deal stage coverage map</li>
+            <li>Form dependency map</li>
             <li>Dependency map</li>
             <li>Workflow simulation</li>
             <li>Unlimited team members</li>
@@ -282,11 +302,11 @@ import Layout from '../layouts/Layout.astro';
       <div class="faq-grid">
         <div class="faq-item">
           <h3>Does Worflo modify my HubSpot workflows?</h3>
-          <p>No — Worflo is read-only by default. Rollback requires you to explicitly grant write access, and every rollback action is confirmed before it's applied.</p>
+          <p>Only when you ask it to. Rollback and execution tracking both require explicit confirmation. When you enable tracking, Worflo adds a single silent webhook step labelled "Worflo Execution Tracking" — you can remove it at any time. Everything else is read-only.</p>
         </div>
         <div class="faq-item">
           <h3>How are execution traces captured?</h3>
-          <p>Worflo polls the HubSpot Workflow Executions API every 5 minutes and processes incoming webhook events. No code changes are needed in your workflows.</p>
+          <p>When you enable tracking on a workflow, Worflo injects a silent webhook step as the first action. Every time that workflow runs, HubSpot fires the webhook and Worflo records the execution. There's no polling lag — traces appear in seconds. You can enable tracking on all workflows at once from the Workflows page.</p>
         </div>
         <div class="faq-item">
           <h3>Will this work with my existing HubSpot plan?</h3>
