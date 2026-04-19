@@ -30,7 +30,12 @@ const updated = '16 April 2026';
           <li><strong>Contact and deal object IDs</strong> — used to identify records in execution logs. We store IDs only, not full contact or deal records.</li>
           <li><strong>Portal metadata</strong> — portal ID, portal name, account timezone</li>
         </ul>
-        <p>This data is accessed read-only. The only write operation Worflo performs is the rollback feature, which reconstructs a previous workflow definition with your explicit instruction.</p>
+        <p>Worflo performs the following write operations on your HubSpot portal data:</p>
+        <ul style="padding-left:20px;margin:8px 0">
+          <li><strong>Execution tracking</strong> — when you enable execution tracking on a workflow, Worflo adds a silent webhook action step as the first step in that workflow. This step fires each time the workflow runs and sends an enrollment event to Worflo. It is labelled "Worflo Execution Tracking" so it is identifiable in HubSpot. The step is removed cleanly when you disable tracking. No other parts of the workflow are modified.</li>
+          <li><strong>Rollback</strong> — when you use the rollback feature, Worflo reconstructs a previous version of a workflow definition and writes it back to HubSpot with your explicit instruction and confirmation.</li>
+        </ul>
+        <p>All write operations require your explicit action (enabling tracking, confirming a rollback). Worflo never modifies your HubSpot data automatically or without your instruction.</p>
         <h3 style="font-size:16px;font-weight:600;color:var(--dark);margin:16px 0 8px">2.3 Usage and technical data</h3>
         <p>We collect information about how you use the application (pages visited, features used) and standard web server data (IP address, browser type, timestamps). We use Sentry for error monitoring, which may capture technical stack traces when an error occurs.</p>
       </div>
@@ -62,7 +67,7 @@ const updated = '16 April 2026';
           <tbody>
             <tr>
               <td style="padding:10px 14px;border:1px solid #e5e7eb"><code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace">automation</code></td>
-              <td style="padding:10px 14px;border:1px solid #e5e7eb">Reading workflow definitions and execution events; writing rollback changes</td>
+              <td style="padding:10px 14px;border:1px solid #e5e7eb">Reading workflow definitions and execution events; writing workflow definitions for execution tracking (injecting/removing the tracking webhook step) and rollback</td>
             </tr>
             <tr>
               <td style="padding:10px 14px;border:1px solid #e5e7eb"><code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace">crm.objects.contacts.read</code></td>
