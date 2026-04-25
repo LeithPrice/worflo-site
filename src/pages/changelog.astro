@@ -3,6 +3,21 @@ import Layout from '../layouts/Layout.astro';
 
 const entries = [
   {
+    version: '1.5',
+    type: 'major',
+    date: 'April 2026',
+    title: 'Execution Trace Completion, Password Reset & Version Stability',
+    tags: ['fixed', 'new', 'fixed', 'fixed', 'improved'],
+    items: [
+      { tag: 'fixed',    text: 'Execution traces now close correctly — a 15-minute polling cycle fetches completion status and step data from HubSpot, resolving traces stuck on "Running"' },
+      { tag: 'fixed',    text: 'Stale running traces (older than 24 hours) are automatically closed each night so the traces list stays accurate' },
+      { tag: 'new',      text: 'Password reset — invited team members can now reset their password via a secure one-time email link' },
+      { tag: 'fixed',    text: 'OAuth reconnect no longer signs out existing sessions — reconnecting from a new device preserves your portal token and webhook URLs' },
+      { tag: 'fixed',    text: 'Version history stability — fixed a sort-order bug that caused false new versions to be created when HubSpot returned identical enrollment criteria in different key orders' },
+      { tag: 'improved', text: 'Cost estimator no longer counts Worflo\'s own execution tracking webhook as part of your workflow\'s API call cost' },
+    ]
+  },
+  {
     version: '1.4',
     type: 'major',
     date: 'April 2026',

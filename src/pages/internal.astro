@@ -1,0 +1,407 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Internal ops page — not linked from public nav.
+// URL: worflo.io/internal
+// Purpose: onboarding new staff, infrastructure reference, admin procedures.
+
+const sections = [
+  {
+    id: 'overview',
+    title: 'System Overview',
+    articles: [
+      {
+        title: 'What Worflo is',
+        body: `Worflo is a SaaS product that installs into HubSpot portals via OAuth. Once installed, it syncs workflow definitions, tracks execution traces (via webhooks injected into HubSpot workflows), surfaces errors, diffs versions, and provides debugging tools HubSpot's native UI doesn't offer.
+
+The product has two parts:
+- Rails API + Angular SPA: the main app hosted on Render (app.worflo.io)
+- Astro marketing site: hosted on Vercel (worflo.io)`,
+      },
+      {
+        title: 'Tech stack',
+        body: `Rails 7 API-only backend · Angular 17 frontend (embedded in HubSpot via App Bridge) · PostgreSQL database · Redis + Sidekiq for background jobs · HubSpot API (hubspot-api-client gem) · Stripe for billing · Anthropic (Claude Haiku) for AI summaries · AWS SES for email · Sentry for error monitoring · Render for hosting.`,
+      },
+    ]
+  },
+  {
+    id: 'repos',
+    title: 'Repositories',
+    articles: [
+      {
+        title: 'hubspot-workflow-debugger (main app)',
+        body: `GitHub: github.com/LeithPrice/hubspot-workflow-debugger
+
+Structure:
+  app/controllers/api/v1/   — JSON API endpoints
+  app/services/hubspot/     — HubSpot API integration (OAuth, sync, webhooks)
+  app/services/workflows/   — Business logic (diff, cost estimate, preflight, AI)
+  app/services/billing/     — Stripe subscription management
+  app/jobs/                 — Sidekiq background jobs
+  app/models/               — Portal, Workflow, WorkflowVersion, ExecutionTrace, User, Subscription
+  frontend/                 — Angular SPA (served as static files in production)
+  db/migrate/               — PostgreSQL migrations
+  spec/                     — RSpec test suite`,
+      },
+      {
+        title: 'worflo-site (marketing)',
+        body: `GitHub: github.com/LeithPrice/worflo-site
+
+Astro static site. Auto-deploys to Vercel on push to main.
+Pages: index, docs, support, changelog, privacy, terms, setup, internal (this page).`,
+      },
+    ]
+  },
+  {
+    id: 'infrastructure',
+    title: 'Infrastructure',
+    articles: [
+      {
+        title: 'Render — app hosting',
+        body: `Login: render.com (use your account email)
+
+Services running:
+  - hubspot-workflow-debugger (Web Service) — Rails API + Angular SPA
+    URL: app.worflo.io
+    Build: bundle exec rake assets:precompile (Angular build baked into Docker image)
+    Start: bundle exec rails server
+    Auto-deploy: yes, on push to main
+
+  - hubspot-workflow-debugger-worker (Background Worker)
+    Runs Sidekiq for background jobs (sync, webhooks, AI explanations, alerts)
+    Start: bundle exec sidekiq
+
+  - PostgreSQL database — managed by Render
+  - Redis — managed by Render (used by Sidekiq)
+
+Health check URL: https://app.worflo.io/health (returns 200 "ok")`,
+      },
+      {
+        title: 'Vercel — marketing site',
+        body: `Login: vercel.com
+
+Project: worflo-site
+Auto-deploys on push to main branch of worflo-site repo.
+Analytics enabled (Vercel Web Analytics).
+PostHog enabled via PUBLIC_POSTHOG_KEY env var (set in Vercel project settings).
+
+To add an env var: Vercel dashboard → worflo-site project → Settings → Environment Variables.`,
+      },
+      {
+        title: 'Environment variables (Render)',
+        body: `Set in: Render dashboard → hubspot-workflow-debugger service → Environment
+
+Key variables:
+  HUBSPOT_CLIENT_ID          — from HubSpot app developer portal
+  HUBSPOT_CLIENT_SECRET      — from HubSpot app developer portal
+  HUBSPOT_REDIRECT_URI       — https://app.worflo.io/api/v1/oauth/callback
+  ANTHROPIC_API_KEY          — from console.anthropic.com
+  STRIPE_SECRET_KEY          — from Stripe dashboard (live key: sk_live_...)
+  STRIPE_WEBHOOK_SECRET      — from Stripe dashboard → Webhooks → signing secret
+  STRIPE_PRICE_PRO           — Stripe price ID for Pro plan (price_...)
+  STRIPE_PRICE_AGENCY        — Stripe price ID for Agency plan
+  STRIPE_PRICE_ENTERPRISE    — Stripe price ID for Enterprise plan
+  DATABASE_URL               — auto-set by Render PostgreSQL
+  REDIS_URL                  — auto-set by Render Redis
+  ENCRYPTION_KEY             — 32-byte hex key for attr_encrypted (never change this — rotating it breaks all stored OAuth tokens)
+  SENTRY_DSN                 — from sentry.io project settings
+  SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS — AWS SES SMTP credentials
+  MAIL_FROM                  — hello@worflo.io
+  FRONTEND_URL               — https://app.worflo.io
+  APP_HOST                   — app.worflo.io`,
+      },
+    ]
+  },
+  {
+    id: 'hubspot-app',
+    title: 'HubSpot App Setup',
+    articles: [
+      {
+        title: 'HubSpot developer portal',
+        body: `Login: app.hubspot.com → Developer account (top-right account switcher → "Leith Price (Developer)")
+
+App: Worflo
+App ID is in the URL when you open the app settings.
+
+OAuth scopes required:
+  crm.objects.contacts.read
+  crm.objects.deals.read
+  crm.objects.companies.read
+  automation.read
+  automation.write (needed to inject tracking webhook step)
+  crm.schemas.contacts.read
+  crm.schemas.deals.read
+
+Redirect URL: https://app.worflo.io/api/v1/oauth/callback`,
+      },
+      {
+        title: 'HubSpot webhook subscriptions',
+        body: `In the HubSpot app settings → Webhooks tab.
+
+Worflo subscribes to workflow execution events at the app level (not per-portal).
+The webhook URL is: https://app.worflo.io/api/v1/webhooks/hubspot
+
+Subscription events:
+  - workflow.enrollmentStatusChanged (fires when contacts enroll/complete/error)
+
+Note: Worflo also injects per-workflow webhooks directly into workflow definitions
+via the Automation v4 API (InstrumentationService). These fire mid-execution and
+are routed to: https://app.worflo.io/api/v1/webhooks/execution/:portal_token/:workflow_id`,
+      },
+      {
+        title: 'HubSpot CRM Cards',
+        body: `Worflo provides CRM Cards that appear on HubSpot contact/deal records.
+
+Configured in: HubSpot app settings → CRM Cards
+
+Card URL (contact): https://app.worflo.io/api/v1/crm-cards/contact
+Card URL (deal):    https://app.worflo.io/api/v1/crm-cards/deal
+
+These show recent workflow executions for the viewed record directly inside HubSpot.`,
+      },
+    ]
+  },
+  {
+    id: 'stripe',
+    title: 'Stripe / Billing',
+    articles: [
+      {
+        title: 'Stripe setup',
+        body: `Login: dashboard.stripe.com
+
+Plans and price IDs (live):
+  Free    — no Stripe product (enforced in-app via plan limits)
+  Pro     — $49/mo — price ID in STRIPE_PRICE_PRO env var
+  Agency  — $149/mo — price ID in STRIPE_PRICE_AGENCY env var
+  Enterprise — $299/mo — price ID in STRIPE_PRICE_ENTERPRISE env var
+
+Webhook endpoint: https://app.worflo.io/api/v1/webhooks/stripe
+Events subscribed: customer.subscription.created, customer.subscription.updated, customer.subscription.deleted, invoice.payment_failed`,
+      },
+      {
+        title: 'Plan limits',
+        body: `Defined in app/models/portal.rb — PLAN_LIMITS constant.
+
+  free:       3 workflows, 100 traces, 0 AI calls/month
+  pro:        unlimited workflows, 10,000 traces, 200 AI calls/month
+  agency:     unlimited workflows, 100,000 traces, 2,000 AI calls/month
+  enterprise: unlimited everything, -1 AI calls (unlimited)
+
+To change limits: edit PLAN_LIMITS in portal.rb and deploy. No DB migration needed.`,
+      },
+    ]
+  },
+  {
+    id: 'admin-panel',
+    title: 'Admin Panel',
+    articles: [
+      {
+        title: 'Accessing the admin panel',
+        body: `The admin panel is built into the Rails app and protected by the X-Admin-Secret header.
+
+Base URL: https://app.worflo.io/admin
+
+All requests require the header:
+  X-Admin-Secret: <value of ADMIN_SECRET env var on Render>
+
+Endpoints:
+  GET  /admin/portals          — list all portals (customers)
+  GET  /admin/portals/:id      — portal detail (plan, usage, traces)
+  POST /admin/portals/:id/impersonate — get a portal auth token to debug as that customer
+  GET  /admin/events           — all app events (errors, syncs, alerts)
+  GET  /admin/portals/:id/events — events for specific portal
+  GET  /admin/ping             — auth check (returns 200 if secret is correct)
+
+Tip: use a tool like Paw, Insomnia, or curl to hit these endpoints.`,
+      },
+    ]
+  },
+  {
+    id: 'deployment',
+    title: 'Deployment',
+    articles: [
+      {
+        title: 'Deploying the app',
+        body: `Push to main branch of hubspot-workflow-debugger → Render auto-deploys.
+
+Deploy runs:
+  1. Docker build (installs gems, builds Angular frontend)
+  2. bundle exec rails db:migrate (runs pending migrations)
+  3. Starts new Rails server, drains old one
+
+Typical deploy time: 3-5 minutes.
+
+To check deploy status: Render dashboard → hubspot-workflow-debugger → Deploys tab.
+To check logs: Render dashboard → hubspot-workflow-debugger → Logs tab.`,
+      },
+      {
+        title: 'Deploying the marketing site',
+        body: `Push to main branch of worflo-site → Vercel auto-deploys.
+
+Typical deploy time: 30-60 seconds.
+
+To check deploy status: Vercel dashboard → worflo-site → Deployments tab.`,
+      },
+      {
+        title: 'Running migrations manually',
+        body: `If a migration needs to be run outside the deploy cycle:
+  Render dashboard → hubspot-workflow-debugger → Shell tab
+  Run: bundle exec rails db:migrate
+
+Check pending migrations: bundle exec rails db:migrate:status`,
+      },
+    ]
+  },
+  {
+    id: 'monitoring',
+    title: 'Monitoring & Alerts',
+    articles: [
+      {
+        title: 'Sentry — error tracking',
+        body: `Login: sentry.io
+
+Project: hubspot-workflow-debugger
+Errors are automatically captured from the Rails app and reported to Sentry.
+Set up email alerts in Sentry project settings → Alerts to get notified of new errors.`,
+      },
+      {
+        title: 'Vercel Analytics',
+        body: `Login: vercel.com → worflo-site → Analytics tab
+
+Shows page views, visitor counts, referrers, countries, devices.
+Data appears within minutes of visits.`,
+      },
+      {
+        title: 'PostHog — product analytics',
+        body: `Login: posthog.com
+
+Tracks marketing site visitors with session replays and funnels.
+API key stored as PUBLIC_POSTHOG_KEY in Vercel environment variables.
+To view recordings: PostHog dashboard → Session Recordings.
+To build funnels: PostHog dashboard → Funnels (e.g. landing page → pricing → signup CTA).`,
+      },
+    ]
+  },
+  {
+    id: 'onboarding',
+    title: 'Developer Onboarding',
+    articles: [
+      {
+        title: 'Setting up locally',
+        body: `Prerequisites: Ruby 3.3.0, Node 20+, PostgreSQL, Redis
+
+1. Clone: git clone https://github.com/LeithPrice/hubspot-workflow-debugger
+2. Copy env: cp .env.example .env  (fill in real values from Render dashboard)
+3. Install gems: bundle install
+4. Setup DB: bundle exec rails db:create db:migrate db:seed
+5. Start Rails: bundle exec rails server (port 3000)
+6. Start Sidekiq: bundle exec sidekiq
+7. Start Angular: cd frontend && npm install && npm start (port 4200)
+
+For the marketing site:
+1. Clone: git clone https://github.com/LeithPrice/worflo-site
+2. npm install
+3. npm run dev (port 4321)`,
+      },
+      {
+        title: 'Key concepts to understand',
+        body: `Portal — one HubSpot account connected to Worflo. All data is scoped to a portal.
+
+Workflow — synced from HubSpot. Has many WorkflowVersions (created when definition changes) and many ExecutionTraces.
+
+WorkflowVersion — a snapshot of the workflow definition at a point in time. Used for version history and diff viewer.
+
+ExecutionTrace — a single execution of a workflow for a specific contact/deal. Created when HubSpot fires the tracking webhook. Has many ExecutionSteps (property changes captured mid-execution).
+
+InstrumentationService — injects Worflo's tracking webhook step into HubSpot workflow definitions. This is how execution data arrives in real time.
+
+current_definition — column on Workflow. Always reflects the latest synced definition from HubSpot. Used by Insights services.
+
+Portal token — unique token per portal used to route incoming webhooks to the correct portal without exposing the HubSpot portal ID.`,
+      },
+      {
+        title: 'Common tasks',
+        body: `View a customer's data:
+  Use the admin panel: GET /admin/portals → find portal ID → GET /admin/portals/:id
+  Or impersonate: POST /admin/portals/:id/impersonate → use returned token as Bearer auth
+
+Force re-sync a workflow:
+  POST /api/v1/workflows/:id/sync (authenticated as the portal)
+
+Check Sidekiq queue health:
+  Render Shell → bundle exec rails runner "puts Sidekiq::Queue.all.map { |q| \"#{q.name}: #{q.size}\" }.join(\"\\n\")"
+
+Run a backfill or one-off script:
+  Render Shell → bundle exec rails runner "YourScript.run"`,
+      },
+    ]
+  },
+];
+---
+
+<Layout title="Internal Ops — Worflo" description="Internal documentation for Worflo infrastructure, admin procedures, and developer onboarding.">
+  <div class="docs-page">
+    <aside class="docs-sidebar">
+      <div class="docs-sidebar-inner">
+        <div class="internal-badge">⚙️ Internal Ops</div>
+        <nav>
+          {sections.map(s => (
+            <div class="docs-nav-section">
+              <a href={`#${s.id}`} class="docs-nav-heading">{s.title}</a>
+              {s.articles.map(a => (
+                <a href={`#${s.id}-${a.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} class="docs-nav-link">{a.title}</a>
+              ))}
+            </div>
+          ))}
+        </nav>
+      </div>
+    </aside>
+
+    <main class="docs-content">
+      <div class="internal-header">
+        <span class="internal-badge-lg">⚙️ Internal</span>
+        <h1>Ops & Developer Reference</h1>
+        <p>Infrastructure, admin procedures, HubSpot app setup, and developer onboarding. Not linked from the public site.</p>
+      </div>
+
+      {sections.map(s => (
+        <section id={s.id}>
+          <h2 class="docs-section-title">{s.title}</h2>
+          {s.articles.map(a => (
+            <div class="docs-article" id={`${s.id}-${a.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+              <h3>{a.title}</h3>
+              <div class="docs-body">
+                {a.body.split('\n\n').map(para => (
+                  <p set:html={para.replace(/\n/g, '<br/>')} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      ))}
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .docs-page { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; max-width: 1200px; margin: 0 auto; padding: 0 24px; gap: 40px; }
+  .docs-sidebar { padding-top: 40px; }
+  .docs-sidebar-inner { position: sticky; top: 80px; }
+  .docs-content { padding: 40px 0 80px; max-width: 720px; }
+  .internal-header { margin-bottom: 48px; padding-bottom: 24px; border-bottom: 2px solid #f59e0b33; }
+  .internal-header h1 { font-size: 32px; font-weight: 800; margin: 12px 0 8px; }
+  .internal-header p { color: var(--gray-6); font-size: 16px; }
+  .internal-badge { display: inline-block; background: #fef3c7; color: #92400e; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; letter-spacing: .4px; margin-bottom: 16px; }
+  .internal-badge-lg { display: inline-block; background: #fef3c7; color: #92400e; font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 16px; letter-spacing: .4px; }
+  .docs-section-title { font-size: 22px; font-weight: 800; color: var(--dark); margin: 48px 0 20px; padding-top: 24px; border-top: 1px solid var(--gray-2); }
+  .docs-section-title:first-child { border-top: none; margin-top: 0; }
+  .docs-article { margin-bottom: 32px; padding: 24px; background: #fafafa; border: 1px solid var(--gray-2); border-radius: 10px; }
+  .docs-article h3 { font-size: 16px; font-weight: 700; color: var(--dark); margin: 0 0 12px; }
+  .docs-body p { font-size: 14px; line-height: 1.7; color: var(--gray-7); margin: 0 0 12px; white-space: pre-wrap; font-family: inherit; }
+  .docs-body p:last-child { margin: 0; }
+  .docs-nav-section { margin-bottom: 20px; }
+  .docs-nav-heading { display: block; font-size: 12px; font-weight: 700; color: var(--dark); text-decoration: none; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px; }
+  .docs-nav-link { display: block; font-size: 13px; color: var(--gray-6); text-decoration: none; padding: 3px 0 3px 10px; border-left: 2px solid var(--gray-2); margin-bottom: 2px; }
+  .docs-nav-link:hover { color: var(--blue); border-left-color: var(--blue); }
+  @media (max-width: 768px) { .docs-page { grid-template-columns: 1fr; } .docs-sidebar { display: none; } }
+</style>
